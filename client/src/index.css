@@ -1,0 +1,612 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(240, 10%, 3.9%);
+  --muted: hsl(240, 4.8%, 95.9%);
+  --muted-foreground: hsl(240, 3.8%, 46.1%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(240, 10%, 3.9%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(240, 10%, 3.9%);
+  --border: hsl(240, 5.9%, 90%);
+  --input: hsl(240, 5.9%, 90%);
+  --primary: hsl(262, 83%, 58%);
+  --primary-foreground: hsl(0, 0%, 98%);
+  --secondary: hsl(240, 4.8%, 95.9%);
+  --secondary-foreground: hsl(240, 5.9%, 10%);
+  --accent: hsl(240, 4.8%, 95.9%);
+  --accent-foreground: hsl(240, 5.9%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 10%, 3.9%);
+  --radius: 0.5rem;
+  
+  /* Healthcare theme colors */
+  --healthcare-primary: hsl(262, 83%, 58%);
+  --healthcare-secondary: hsl(276, 83%, 65%);
+  --healthcare-success: hsl(142, 71%, 45%);
+  --healthcare-danger: hsl(0, 84%, 60%);
+  --healthcare-warning: hsl(38, 92%, 50%);
+  --sidebar-bg: hsl(210, 40%, 98%);
+  --available-bg: hsl(142, 76%, 94%);
+  --available-text: hsl(142, 82%, 20%);
+  --booked-bg: hsl(0, 93%, 94%);
+  --booked-text: hsl(0, 84%, 25%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(262, 83%, 58%);
+  --primary-foreground: hsl(0, 0%, 98%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, var(--healthcare-primary) 0%, var(--healthcare-secondary) 100%);
+    min-height: 100vh;
+  }
+}
+
+/* Healthcare App Styles */
+.healthcare-app {
+  min-height: 100vh;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  min-height: calc(100vh - 40px);
+  display: flex;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 250px;
+  background: var(--sidebar-bg);
+  padding: 30px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+  margin-bottom: 40px;
+}
+
+.logo i {
+  color: var(--healthcare-danger);
+  font-size: 24px;
+  margin-right: 12px;
+}
+
+.logo span {
+  font-size: 20px;
+  font-weight: 600;
+  color: hsl(240, 5.9%, 10%);
+}
+
+.nav-menu {
+  list-style: none;
+  padding: 0 20px;
+  margin: 0;
+}
+
+.nav-item {
+  margin-bottom: 8px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  color: hsl(240, 3.8%, 46.1%);
+  text-decoration: none;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background: hsl(240, 4.8%, 90%);
+  color: hsl(240, 5.9%, 10%);
+}
+
+.nav-link i {
+  margin-right: 12px;
+  width: 20px;
+  text-align: center;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 40px;
+  border-bottom: 1px solid var(--border);
+}
+
+.search-container {
+  flex: 1;
+  max-width: 400px;
+  margin: 0 40px;
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 16px 12px 45px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  font-size: 16px;
+  background: var(--sidebar-bg);
+  transition: border-color 0.2s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--healthcare-primary);
+}
+
+.search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: hsl(240, 3.8%, 46.1%);
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.action-btn {
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.2s ease;
+}
+
+.profile-btn {
+  background: var(--healthcare-success);
+  color: white;
+}
+
+.add-btn {
+  background: var(--healthcare-danger);
+  color: white;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Content Area */
+.content-area {
+  flex: 1;
+  padding: 40px;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: hsl(240, 5.9%, 10%);
+  margin-bottom: 30px;
+}
+
+/* Doctor Cards */
+.doctors-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.doctor-card {
+  display: flex;
+  align-items: center;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.doctor-card:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.doctor-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.doctor-info {
+  flex: 1;
+}
+
+.doctor-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: hsl(240, 5.9%, 10%);
+  margin-bottom: 4px;
+}
+
+.doctor-specialty {
+  color: hsl(240, 3.8%, 46.1%);
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.availability-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.availability-badge.available {
+  background: var(--available-bg);
+  color: var(--available-text);
+}
+
+.availability-badge.fully-booked {
+  background: var(--booked-bg);
+  color: var(--booked-text);
+}
+
+.view-profile-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+}
+
+.view-profile-btn.btn-available {
+  background: var(--healthcare-success);
+  color: white;
+}
+
+.view-profile-btn.btn-booked {
+  background: var(--healthcare-danger);
+  color: white;
+}
+
+.view-profile-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Doctor Profile */
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+  padding: 30px;
+  background: linear-gradient(135deg, var(--sidebar-bg) 0%, var(--border) 100%);
+  border-radius: 16px;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 30px;
+  border: 4px solid white;
+}
+
+.profile-details h2 {
+  font-size: 32px;
+  font-weight: 600;
+  color: hsl(240, 5.9%, 10%);
+  margin-bottom: 8px;
+}
+
+.profile-details p {
+  font-size: 18px;
+  color: hsl(240, 3.8%, 46.1%);
+  margin-bottom: 12px;
+}
+
+.availability-section {
+  margin: 40px 0;
+}
+
+.availability-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: hsl(240, 5.9%, 10%);
+  margin-bottom: 20px;
+}
+
+.time-slots {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.time-slot {
+  padding: 12px 20px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.time-slot:hover {
+  border-color: var(--healthcare-primary);
+  background: hsl(262, 100%, 98%);
+}
+
+.time-slot.available {
+  border-color: var(--healthcare-success);
+  color: var(--available-text);
+}
+
+.time-slot.booked {
+  border-color: var(--healthcare-danger);
+  color: var(--booked-text);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.book-appointment-btn {
+  background: var(--healthcare-primary);
+  color: white;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.book-appointment-btn:hover {
+  background: hsl(262, 83%, 50%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  color: hsl(240, 5.9%, 10%);
+  margin-bottom: 8px;
+}
+
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  font-size: 16px;
+  transition: border-color 0.2s ease;
+}
+
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--healthcare-primary);
+}
+
+.form-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.btn-primary {
+  background: var(--healthcare-primary);
+  color: white;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary {
+  background: var(--border);
+  color: hsl(240, 3.8%, 46.1%);
+  padding: 14px 28px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: hsl(262, 83%, 50%);
+  transform: translateY(-1px);
+}
+
+.btn-secondary:hover {
+  background: hsl(240, 4.8%, 85%);
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--healthcare-primary);
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.back-btn:hover {
+  text-decoration: underline;
+}
+
+.confirmation-message {
+  background: var(--available-bg);
+  color: var(--available-text);
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .healthcare-app {
+    padding: 10px;
+  }
+
+  .app-container {
+    flex-direction: column;
+    min-height: calc(100vh - 20px);
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 20px 0;
+  }
+
+  .nav-menu {
+    display: flex;
+    overflow-x: auto;
+    padding: 0 20px;
+  }
+
+  .nav-item {
+    flex-shrink: 0;
+    margin-right: 8px;
+    margin-bottom: 0;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .search-container {
+    max-width: none;
+    margin: 0;
+  }
+
+  .content-area {
+    padding: 20px;
+  }
+
+  .doctor-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .doctor-avatar {
+    margin-right: 0;
+    margin-bottom: 16px;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .profile-avatar {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+  .time-slots {
+    justify-content: center;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 24px;
+  }
+
+  .doctor-name {
+    font-size: 18px;
+  }
+
+  .profile-details h2 {
+    font-size: 24px;
+  }
+
+  .availability-title {
+    font-size: 20px;
+  }
+}
