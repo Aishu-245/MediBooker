@@ -2,34 +2,29 @@
 
 ## Overview
 
-This is a modern healthcare appointment booking system built with React, Express, and PostgreSQL. The application allows patients to browse available doctors, view their profiles, and book appointments. It features a clean, accessible interface with comprehensive UI components and real-time data management.
+This is a vanilla React healthcare appointment booking system built with class components, pure CSS, and static data. The application allows patients to browse available doctors, view their profiles, and book appointments. It features a clean, accessible interface matching a professional medical design with purple theme colors and responsive layout using flexbox and media queries.
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+Architecture preferences: Vanilla React with class components, no TypeScript, no hooks, no Tailwind CSS, pure CSS with flexbox layout and media queries for responsiveness.
 
 ## System Architecture
 
 ### Frontend Architecture
-- **Framework**: React 18 with TypeScript
+- **Framework**: React 18 with vanilla JavaScript
+- **Components**: Class-based components (no hooks)
 - **Routing**: Wouter for client-side navigation
-- **State Management**: TanStack Query (React Query) for server state management
-- **UI Framework**: Custom component library built on Radix UI primitives
-- **Styling**: Tailwind CSS with CSS variables for theming
+- **State Management**: Component state and props (no external state libraries)
+- **Styling**: Pure CSS with flexbox layout and CSS Grid
+- **Responsive Design**: Media queries for mobile-first responsive design
 - **Build Tool**: Vite for development and production builds
 
-### Backend Architecture
-- **Framework**: Express.js with TypeScript
-- **API Design**: RESTful API with structured error handling
-- **Request Logging**: Custom middleware for API request/response logging
-- **Development**: Hot module replacement with Vite integration
-
 ### Data Layer
-- **Database**: PostgreSQL with Drizzle ORM
-- **Connection**: Neon Database serverless driver
-- **Schema Management**: Drizzle Kit for migrations and schema management
-- **Validation**: Zod schemas for type-safe data validation
-- **Development Storage**: In-memory storage with seeded mock data
+- **Data Source**: Static mock data stored in JavaScript modules
+- **Storage**: Client-side data management with helper functions
+- **Search**: Client-side filtering and search functionality
+- **Appointments**: Local data storage for booking functionality
 
 ### Component Architecture
 - **Design System**: shadcn/ui components for consistent UI patterns
