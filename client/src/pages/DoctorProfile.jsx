@@ -64,11 +64,9 @@ class DoctorProfile extends Component {
           />
           
           <div className="content-area">
-            <Link href="/">
-              <a className="back-btn">
-                <span>←</span>
-                Back to Doctors
-              </a>
+            <Link href="/" className="back-btn">
+              <span>←</span>
+              Back to Doctors
             </Link>
 
             {loading && (
@@ -110,10 +108,8 @@ class DoctorProfile extends Component {
                   </div>
 
                   {doctor.available ? (
-                    <Link href={`/book/${doctor.id}`}>
-                      <a className="book-appointment-btn">
-                        Book Appointment
-                      </a>
+                    <Link href={`/book/${doctor.id}`} className="book-appointment-btn">
+                      Book Appointment
                     </Link>
                   ) : (
                     <button className="book-appointment-btn" disabled style={{ opacity: 0.6, cursor: "not-allowed" }}>

@@ -35,10 +35,8 @@ class NotFound extends Component {
               <p style={{ fontSize: '16px', marginBottom: '30px', color: '#6b7280' }}>
                 The page you're looking for doesn't exist.
               </p>
-              <Link href="/">
-                <a className="btn-primary">
-                  Go Back Home
-                </a>
+              <Link href="/" className="btn-primary">
+                Go Back Home
               </Link>
             </div>
           </div>

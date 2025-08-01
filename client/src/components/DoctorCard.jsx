@@ -17,10 +17,8 @@ class DoctorCard extends Component {
           </span>
         </div>
 
-        <Link href={`/doctor/${doctor.id}`}>
-          <a className={`view-profile-btn ${doctor.available ? "btn-available" : "btn-booked"}`}>
-            View Profile
-          </a>
+        <Link href={`/doctor/${doctor.id}`} className={`view-profile-btn ${doctor.available ? "btn-available" : "btn-booked"}`}>
+          View Profile
         </Link>
       </div>
     );

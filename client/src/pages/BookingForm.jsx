@@ -139,11 +139,9 @@ class BookingForm extends Component {
           />
           
           <div className="content-area">
-            <Link href={`/doctor/${id}`}>
-              <a className="back-btn">
-                <span>←</span>
-                Back to Profile
-              </a>
+            <Link href={`/doctor/${id}`} className="back-btn">
+              <span>←</span>
+              Back to Profile
             </Link>
 
             <h1 className="page-title">Book Appointment</h1>
@@ -239,8 +237,8 @@ class BookingForm extends Component {
                     >
                       {submitting ? "Booking..." : "Book Appointment"}
                     </button>
-                    <Link href={`/doctor/${id}`}>
-                      <a className="btn-secondary">Cancel</a>
+                    <Link href={`/doctor/${id}`} className="btn-secondary">
+                      Cancel
                     </Link>
                   </div>
                 </form>
