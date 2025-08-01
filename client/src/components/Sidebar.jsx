@@ -21,11 +21,9 @@ class Sidebar extends Component {
         </div>
         <ul className="nav-menu">
           <li className="nav-item">
-            <Link href="/">
-              <a className={`nav-link ${location === "/" ? "active" : ""}`}>
-                <span className="nav-icon">🏠</span>
-                Home
-              </a>
+            <Link href="/" className={`nav-link ${location === "/" ? "active" : ""}`}>
+              <span className="nav-icon">🏠</span>
+              Home
             </Link>
           </li>
           <li className="nav-item">
