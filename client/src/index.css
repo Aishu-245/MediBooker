@@ -1,85 +1,18 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --background: hsl(0, 0%, 100%);
-  --foreground: hsl(240, 10%, 3.9%);
-  --muted: hsl(240, 4.8%, 95.9%);
-  --muted-foreground: hsl(240, 3.8%, 46.1%);
-  --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(240, 10%, 3.9%);
-  --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(240, 10%, 3.9%);
-  --border: hsl(240, 5.9%, 90%);
-  --input: hsl(240, 5.9%, 90%);
-  --primary: hsl(262, 83%, 58%);
-  --primary-foreground: hsl(0, 0%, 98%);
-  --secondary: hsl(240, 4.8%, 95.9%);
-  --secondary-foreground: hsl(240, 5.9%, 10%);
-  --accent: hsl(240, 4.8%, 95.9%);
-  --accent-foreground: hsl(240, 5.9%, 10%);
-  --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(0, 0%, 98%);
-  --ring: hsl(240, 10%, 3.9%);
-  --radius: 0.5rem;
-  
-  /* Healthcare theme colors */
-  --healthcare-primary: hsl(262, 83%, 58%);
-  --healthcare-secondary: hsl(276, 83%, 65%);
-  --healthcare-success: hsl(142, 71%, 45%);
-  --healthcare-danger: hsl(0, 84%, 60%);
-  --healthcare-warning: hsl(38, 92%, 50%);
-  --sidebar-bg: hsl(210, 40%, 98%);
-  --available-bg: hsl(142, 76%, 94%);
-  --available-text: hsl(142, 82%, 20%);
-  --booked-bg: hsl(0, 93%, 94%);
-  --booked-text: hsl(0, 84%, 25%);
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.dark {
-  --background: hsl(240, 10%, 3.9%);
-  --foreground: hsl(0, 0%, 98%);
-  --muted: hsl(240, 3.7%, 15.9%);
-  --muted-foreground: hsl(240, 5%, 64.9%);
-  --popover: hsl(240, 10%, 3.9%);
-  --popover-foreground: hsl(0, 0%, 98%);
-  --card: hsl(240, 10%, 3.9%);
-  --card-foreground: hsl(0, 0%, 98%);
-  --border: hsl(240, 3.7%, 15.9%);
-  --input: hsl(240, 3.7%, 15.9%);
-  --primary: hsl(262, 83%, 58%);
-  --primary-foreground: hsl(0, 0%, 98%);
-  --secondary: hsl(240, 3.7%, 15.9%);
-  --secondary-foreground: hsl(0, 0%, 98%);
-  --accent: hsl(240, 3.7%, 15.9%);
-  --accent-foreground: hsl(0, 0%, 98%);
-  --destructive: hsl(0, 62.8%, 30.6%);
-  --destructive-foreground: hsl(0, 0%, 98%);
-  --ring: hsl(240, 4.9%, 83.9%);
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply font-sans antialiased;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(135deg, var(--healthcare-primary) 0%, var(--healthcare-secondary) 100%);
-    min-height: 100vh;
-  }
-}
-
-/* Healthcare App Styles */
-.healthcare-app {
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
   min-height: 100vh;
   padding: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
+/* Main App Container */
 .app-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -94,7 +27,7 @@
 /* Sidebar Styles */
 .sidebar {
   width: 250px;
-  background: var(--sidebar-bg);
+  background: #fafafa;
   padding: 30px 0;
   display: flex;
   flex-direction: column;
@@ -107,8 +40,8 @@
   margin-bottom: 40px;
 }
 
-.logo i {
-  color: var(--healthcare-danger);
+.logo .heart-icon {
+  color: #ef4444;
   font-size: 24px;
   margin-right: 12px;
 }
@@ -116,7 +49,7 @@
 .logo span {
   font-size: 20px;
   font-weight: 600;
-  color: hsl(240, 5.9%, 10%);
+  color: #1f2937;
 }
 
 .nav-menu {
@@ -133,7 +66,7 @@
   display: flex;
   align-items: center;
   padding: 12px 20px;
-  color: hsl(240, 3.8%, 46.1%);
+  color: #6b7280;
   text-decoration: none;
   border-radius: 10px;
   transition: all 0.2s ease;
@@ -141,11 +74,11 @@
 
 .nav-link:hover,
 .nav-link.active {
-  background: hsl(240, 4.8%, 90%);
-  color: hsl(240, 5.9%, 10%);
+  background: #e5e7eb;
+  color: #1f2937;
 }
 
-.nav-link i {
+.nav-icon {
   margin-right: 12px;
   width: 20px;
   text-align: center;
@@ -164,7 +97,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 30px 40px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .search-container {
@@ -177,16 +110,16 @@
 .search-input {
   width: 100%;
   padding: 12px 16px 12px 45px;
-  border: 2px solid var(--border);
+  border: 2px solid #e5e7eb;
   border-radius: 12px;
   font-size: 16px;
-  background: var(--sidebar-bg);
+  background: #fafafa;
   transition: border-color 0.2s ease;
 }
 
 .search-input:focus {
   outline: none;
-  border-color: var(--healthcare-primary);
+  border-color: #7c3aed;
 }
 
 .search-icon {
@@ -194,7 +127,7 @@
   left: 16px;
   top: 50%;
   transform: translateY(-50%);
-  color: hsl(240, 3.8%, 46.1%);
+  color: #6b7280;
 }
 
 .header-actions {
@@ -216,12 +149,12 @@
 }
 
 .profile-btn {
-  background: var(--healthcare-success);
+  background: #10b981;
   color: white;
 }
 
 .add-btn {
-  background: var(--healthcare-danger);
+  background: #ef4444;
   color: white;
 }
 
@@ -239,7 +172,7 @@
 .page-title {
   font-size: 28px;
   font-weight: 600;
-  color: hsl(240, 5.9%, 10%);
+  color: #1f2937;
   margin-bottom: 30px;
 }
 
@@ -254,7 +187,7 @@
   display: flex;
   align-items: center;
   padding: 24px;
-  border: 1px solid var(--border);
+  border: 1px solid #e5e7eb;
   border-radius: 16px;
   transition: all 0.2s ease;
   background: white;
@@ -280,12 +213,12 @@
 .doctor-name {
   font-size: 20px;
   font-weight: 600;
-  color: hsl(240, 5.9%, 10%);
+  color: #1f2937;
   margin-bottom: 4px;
 }
 
 .doctor-specialty {
-  color: hsl(240, 3.8%, 46.1%);
+  color: #6b7280;
   font-size: 16px;
   margin-bottom: 12px;
 }
@@ -299,13 +232,13 @@
 }
 
 .availability-badge.available {
-  background: var(--available-bg);
-  color: var(--available-text);
+  background: #d1fae5;
+  color: #047857;
 }
 
 .availability-badge.fully-booked {
-  background: var(--booked-bg);
-  color: var(--booked-text);
+  background: #fee2e2;
+  color: #dc2626;
 }
 
 .view-profile-btn {
@@ -321,12 +254,12 @@
 }
 
 .view-profile-btn.btn-available {
-  background: var(--healthcare-success);
+  background: #10b981;
   color: white;
 }
 
 .view-profile-btn.btn-booked {
-  background: var(--healthcare-danger);
+  background: #ef4444;
   color: white;
 }
 
@@ -341,7 +274,7 @@
   align-items: center;
   margin-bottom: 40px;
   padding: 30px;
-  background: linear-gradient(135deg, var(--sidebar-bg) 0%, var(--border) 100%);
+  background: linear-gradient(135deg, #fafafa 0%, #e5e7eb 100%);
   border-radius: 16px;
 }
 
@@ -357,13 +290,13 @@
 .profile-details h2 {
   font-size: 32px;
   font-weight: 600;
-  color: hsl(240, 5.9%, 10%);
+  color: #1f2937;
   margin-bottom: 8px;
 }
 
 .profile-details p {
   font-size: 18px;
-  color: hsl(240, 3.8%, 46.1%);
+  color: #6b7280;
   margin-bottom: 12px;
 }
 
@@ -374,7 +307,7 @@
 .availability-title {
   font-size: 24px;
   font-weight: 600;
-  color: hsl(240, 5.9%, 10%);
+  color: #1f2937;
   margin-bottom: 20px;
 }
 
@@ -387,7 +320,7 @@
 
 .time-slot {
   padding: 12px 20px;
-  border: 2px solid var(--border);
+  border: 2px solid #e5e7eb;
   border-radius: 12px;
   background: white;
   cursor: pointer;
@@ -396,24 +329,24 @@
 }
 
 .time-slot:hover {
-  border-color: var(--healthcare-primary);
-  background: hsl(262, 100%, 98%);
+  border-color: #7c3aed;
+  background: #f5f3ff;
 }
 
 .time-slot.available {
-  border-color: var(--healthcare-success);
-  color: var(--available-text);
+  border-color: #10b981;
+  color: #047857;
 }
 
 .time-slot.booked {
-  border-color: var(--healthcare-danger);
-  color: var(--booked-text);
+  border-color: #dc2626;
+  color: #dc2626;
   cursor: not-allowed;
   opacity: 0.6;
 }
 
 .book-appointment-btn {
-  background: var(--healthcare-primary);
+  background: #7c3aed;
   color: white;
   padding: 16px 32px;
   border: none;
@@ -422,12 +355,14 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .book-appointment-btn:hover {
-  background: hsl(262, 83%, 50%);
+  background: #6d28d9;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
 }
 
 /* Form Styles */
@@ -438,7 +373,7 @@
 .form-label {
   display: block;
   font-weight: 600;
-  color: hsl(240, 5.9%, 10%);
+  color: #1f2937;
   margin-bottom: 8px;
 }
 
@@ -446,7 +381,7 @@
 .form-select {
   width: 100%;
   padding: 12px 16px;
-  border: 2px solid var(--border);
+  border: 2px solid #e5e7eb;
   border-radius: 12px;
   font-size: 16px;
   transition: border-color 0.2s ease;
@@ -455,7 +390,7 @@
 .form-input:focus,
 .form-select:focus {
   outline: none;
-  border-color: var(--healthcare-primary);
+  border-color: #7c3aed;
 }
 
 .form-actions {
@@ -465,7 +400,7 @@
 }
 
 .btn-primary {
-  background: var(--healthcare-primary);
+  background: #7c3aed;
   color: white;
   padding: 14px 28px;
   border: none;
@@ -473,38 +408,45 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
 }
 
 .btn-secondary {
-  background: var(--border);
-  color: hsl(240, 3.8%, 46.1%);
+  background: #e5e7eb;
+  color: #6b7280;
   padding: 14px 28px;
   border: none;
   border-radius: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
 }
 
 .btn-primary:hover {
-  background: hsl(262, 83%, 50%);
+  background: #6d28d9;
   transform: translateY(-1px);
 }
 
 .btn-secondary:hover {
-  background: hsl(240, 4.8%, 85%);
+  background: #d1d5db;
 }
 
 .back-btn {
   background: none;
   border: none;
-  color: var(--healthcare-primary);
+  color: #7c3aed;
   font-size: 16px;
   cursor: pointer;
   margin-bottom: 20px;
   display: flex;
   align-items: center;
   gap: 8px;
+  text-decoration: none;
 }
 
 .back-btn:hover {
@@ -512,17 +454,27 @@
 }
 
 .confirmation-message {
-  background: var(--available-bg);
-  color: var(--available-text);
+  background: #d1fae5;
+  color: #047857;
   padding: 20px;
   border-radius: 12px;
   margin-top: 20px;
   text-align: center;
 }
 
+.loading-message, .error-message {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 18px;
+}
+
+.error-message {
+  color: #dc2626;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
-  .healthcare-app {
+  body {
     padding: 10px;
   }
 
