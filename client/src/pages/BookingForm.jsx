@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, useParams, useLocation } from 'wouter';
 import Sidebar from '../components/Sidebar.jsx';
 import Header from '../components/Header.jsx';
+import { getDoctorById, createAppointment } from '../data/mockData.js';
 
 // Higher-order component to inject hooks
 function withRouter(WrappedComponent) {
@@ -31,26 +32,25 @@ class BookingForm extends Component {
   }
 
   componentDidMount() {
-    this.fetchDoctor();
+    this.loadDoctor();
   }
 
-  fetchDoctor = async () => {
-    try {
-      const { id } = this.props.params;
-      const response = await fetch(`/api/doctors/${id}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch doctor');
+  loadDoctor = () => {
+    const { id } = this.props.params;
+    this.setState({ loading: true });
+    
+    // Simulate loading delay
+    setTimeout(() => {
+      const doctor = getDoctorById(id);
+      if (doctor) {
+        this.setState({ doctor, loading: false, error: null });
+      } else {
+        this.setState({ 
+          error: 'Doctor not found. Please try again.', 
+          loading: false 
+        });
       }
-      
-      const doctor = await response.json();
-      this.setState({ doctor, loading: false, error: null });
-    } catch (error) {
-      console.error('Error fetching doctor:', error);
-      this.setState({ 
-        error: 'Failed to load doctor information. Please try again.', 
-        loading: false 
-      });
-    }
+    }, 300);
   };
 
   handleSearchChange = (query) => {
@@ -61,7 +61,7 @@ class BookingForm extends Component {
     this.setState({ [field]: value });
   };
 
-  handleSubmit = async (e) => {
+  handleSubmit = (e) => {
     e.preventDefault();
     
     const { patientName, patientEmail, appointmentDate, appointmentTime } = this.state;
@@ -74,42 +74,36 @@ class BookingForm extends Component {
 
     this.setState({ submitting: true });
 
-    try {
-      const appointment = {
-        doctorId: id,
-        patientName,
-        patientEmail,
-        appointmentDate,
-        appointmentTime
-      };
+    // Simulate API call delay
+    setTimeout(() => {
+      try {
+        const appointment = {
+          doctorId: id,
+          patientName,
+          patientEmail,
+          appointmentDate,
+          appointmentTime
+        };
 
-      const response = await fetch('/api/appointments', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(appointment),
-      });
+        // Save appointment to mock data
+        createAppointment(appointment);
 
-      if (!response.ok) {
-        throw new Error('Failed to book appointment');
+        this.setState({ 
+          showConfirmation: true,
+          submitting: false 
+        });
+
+        // Redirect after 3 seconds
+        setTimeout(() => {
+          this.props.setLocation('/');
+        }, 3000);
+
+      } catch (error) {
+        console.error('Error booking appointment:', error);
+        alert('Failed to book appointment. Please try again.');
+        this.setState({ submitting: false });
       }
-
-      this.setState({ 
-        showConfirmation: true,
-        submitting: false 
-      });
-
-      // Redirect after 3 seconds
-      setTimeout(() => {
-        this.props.setLocation('/');
-      }, 3000);
-
-    } catch (error) {
-      console.error('Error booking appointment:', error);
-      alert('Failed to book appointment. Please try again.');
-      this.setState({ submitting: false });
-    }
+    }, 1000);
   };
 
   render() {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Sidebar from '../components/Sidebar.jsx';
 import Header from '../components/Header.jsx';
 import DoctorCard from '../components/DoctorCard.jsx';
+import { getDoctors, searchDoctors } from '../data/mockData.js';
 
 class Landing extends Component {
   constructor(props) {
@@ -15,38 +16,29 @@ class Landing extends Component {
   }
 
   componentDidMount() {
-    this.fetchDoctors();
+    this.loadDoctors();
   }
 
-  fetchDoctors = async (searchQuery = '') => {
-    try {
-      this.setState({ loading: true });
-      const url = searchQuery 
-        ? `/api/doctors/search?q=${encodeURIComponent(searchQuery)}`
-        : '/api/doctors';
-      
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error('Failed to fetch doctors');
-      }
-      
-      const doctors = await response.json();
-      this.setState({ doctors, loading: false, error: null });
-    } catch (error) {
-      console.error('Error fetching doctors:', error);
+  loadDoctors = (searchQuery = '') => {
+    this.setState({ loading: true });
+    
+    // Simulate loading delay for better UX
+    setTimeout(() => {
+      const doctors = searchQuery ? searchDoctors(searchQuery) : getDoctors();
       this.setState({ 
-        error: 'Failed to load doctors. Please try again.', 
-        loading: false 
+        doctors, 
+        loading: false, 
+        error: null 
       });
-    }
+    }, 300);
   };
 
   handleSearchChange = (query) => {
     this.setState({ searchQuery: query });
-    // Debounce search to avoid too many API calls
+    // Debounce search for better performance
     clearTimeout(this.searchTimeout);
     this.searchTimeout = setTimeout(() => {
-      this.fetchDoctors(query);
+      this.loadDoctors(query);
     }, 300);
   };
 

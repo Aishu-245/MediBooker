@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, useParams } from 'wouter';
 import Sidebar from '../components/Sidebar.jsx';
 import Header from '../components/Header.jsx';
+import { getDoctorById } from '../data/mockData.js';
 
 // Higher-order component to inject useParams hook
 function withParams(WrappedComponent) {
@@ -23,26 +24,25 @@ class DoctorProfile extends Component {
   }
 
   componentDidMount() {
-    this.fetchDoctor();
+    this.loadDoctor();
   }
 
-  fetchDoctor = async () => {
-    try {
-      const { id } = this.props.params;
-      const response = await fetch(`/api/doctors/${id}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch doctor');
+  loadDoctor = () => {
+    const { id } = this.props.params;
+    this.setState({ loading: true });
+    
+    // Simulate loading delay
+    setTimeout(() => {
+      const doctor = getDoctorById(id);
+      if (doctor) {
+        this.setState({ doctor, loading: false, error: null });
+      } else {
+        this.setState({ 
+          error: 'Doctor not found. Please try again.', 
+          loading: false 
+        });
       }
-      
-      const doctor = await response.json();
-      this.setState({ doctor, loading: false, error: null });
-    } catch (error) {
-      console.error('Error fetching doctor:', error);
-      this.setState({ 
-        error: 'Failed to load doctor profile. Please try again.', 
-        loading: false 
-      });
-    }
+    }, 300);
   };
 
   handleSearchChange = (query) => {
