@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Appointment Booking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            min-height: calc(100vh - 40px);
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #F8FAFC;
+            padding: 30px 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            margin-bottom: 40px;
+        }
+
+        .logo i {
+            color: #EF4444;
+            font-size: 24px;
+            margin-right: 12px;
+        }
+
+        .logo span {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1F2937;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0 20px;
+        }
+
+        .nav-item {
+            margin-bottom: 8px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #6B7280;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: #E5E7EB;
+            color: #1F2937;
+        }
+
+        .nav-link i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 30px 40px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 40px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 45px;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 16px;
+            background: #F8FAFC;
+            transition: border-color 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #6366F1;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6B7280;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-btn {
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.2s ease;
+        }
+
+        .profile-btn {
+            background: #10B981;
+            color: white;
+        }
+
+        .add-btn {
+            background: #EF4444;
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 30px;
+        }
+
+        /* Doctor Cards */
+        .doctors-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .doctor-card {
+            display: flex;
+            align-items: center;
+            padding: 24px;
+            border: 1px solid #E5E7EB;
+            border-radius: 16px;
+            transition: all 0.2s ease;
+            background: white;
+        }
+
+        .doctor-card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .doctor-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .doctor-info {
+            flex: 1;
+        }
+
+        .doctor-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 4px;
+        }
+
+        .doctor-specialty {
+            color: #6B7280;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .availability-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .available {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .fully-booked {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .view-profile-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-available {
+            background: #10B981;
+            color: white;
+        }
+
+        .btn-booked {
+            background: #EF4444;
+            color: white;
+        }
+
+        .view-profile-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Doctor Profile Page */
+        .doctor-profile {
+            display: none;
+        }
+
+        .doctor-profile.active {
+            display: block;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #F8FAFC 0%, #E5E7EB 100%);
+            border-radius: 16px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 30px;
+            border: 4px solid white;
+        }
+
+        .profile-details h2 {
+            font-size: 32px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 8px;
+        }
+
+        .profile-details p {
+            font-size: 18px;
+            color: #6B7280;
+            margin-bottom: 12px;
+        }
+
+        .availability-section {
+            margin: 40px 0;
+        }
+
+        .availability-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 20px;
+        }
+
+        .time-slots {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .time-slot {
+            padding: 12px 20px;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .time-slot:hover {
+            border-color: #6366F1;
+            background: #F0F9FF;
+        }
+
+        .time-slot.available {
+            border-color: #10B981;
+            color: #065F46;
+        }
+
+        .time-slot.booked {
+            border-color: #EF4444;
+            color: #991B1B;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .book-appointment-btn {
+            background: #6366F1;
+            color: white;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .book-appointment-btn:hover {
+            background: #4F46E5;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Booking Form */
+        .booking-form {
+            display: none;
+            max-width: 600px;
+        }
+
+        .booking-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 8px;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #6366F1;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .btn-primary {
+            background: #6366F1;
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary {
+            background: #E5E7EB;
+            color: #6B7280;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background: #4F46E5;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary:hover {
+            background: #D1D5DB;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: #6366F1;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+
+        .confirmation-message {
+            display: none;
+            background: #D1FAE5;
+            color: #065F46;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .confirmation-message.active {
+            display: block;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .app-container {
+                flex-direction: column;
+                min-height: calc(100vh - 20px);
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 20px 0;
+            }
+
+            .nav-menu {
+                display: flex;
+                overflow-x: auto;
+                padding: 0 20px;
+            }
+
+            .nav-item {
+                flex-shrink: 0;
+                margin-right: 8px;
+                margin-bottom: 0;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .search-container {
+                max-width: none;
+                margin: 0;
+            }
+
+            .content-area {
+                padding: 20px;
+            }
+
+            .doctor-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .doctor-avatar {
+                margin-right: 0;
+                margin-bottom: 16px;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .profile-avatar {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .time-slots {
+                justify-content: center;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 24px;
+            }
+
+            .doctor-name {
+                font-size: 18px;
+            }
+
+            .profile-details h2 {
+                font-size: 24px;
+            }
+
+            .availability-title {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- @COMPONENT: Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-heart"></i>
+                <span>Healthcare</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" onclick="showLanding()">
+                        <i class="fas fa-home"></i>
+                        Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        Profile
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        Settings
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-question-circle"></i>
+                        Support
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- @END_COMPONENT: Sidebar -->
+
+        <div class="main-content">
+            <!-- @COMPONENT: Header -->
+            <div class="header">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search Doctors..." id="searchInput" oninput="filterDoctors()">
+                </div>
+                
+                <div class="header-actions">
+                    <button class="action-btn profile-btn">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <button class="action-btn add-btn">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- @END_COMPONENT: Header -->
+
+            <!-- @COMPONENT: ContentArea -->
+            <div class="content-area">
+                <!-- Landing Page - Doctor List -->
+                <div id="landingPage" class="landing-page">
+                    <h1 class="page-title">Available Doctors</h1>
+                    
+                    <div class="doctors-grid" id="doctorsGrid">
+                        <!-- @MAP: doctors.map(doctor => ( -->
+                        <div class="doctor-card" data-specialty="Cardiologist" data-name="Dr. Sarah Williams">
+                            <!-- A professional headshot of a smiling African American female cardiologist in medical attire -->
+                            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400" alt="Dr. Sarah Williams" class="doctor-avatar" data-mock="true">
+                            
+                            <div class="doctor-info">
+                                <h3 class="doctor-name" data-bind="doctor.name">Dr. Sarah Williams</h3>
+                                <p class="doctor-specialty" data-bind="doctor.specialty">Cardiologist</p>
+                                <span class="availability-badge fully-booked" data-bind="doctor.status">Fully Booked</span>
+                            </div>
+                            
+                            <button class="view-profile-btn btn-booked" onclick="showDoctorProfile('sarah-williams')" data-event="click:viewProfile">View Profile</button>
+                        </div>
+
+                        <div class="doctor-card" data-specialty="Oncologist" data-name="Dr. John Smith">
+                            <!-- A professional headshot of a smiling Caucasian male oncologist wearing glasses and medical coat -->
+                            <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400" alt="Dr. John Smith" class="doctor-avatar" data-mock="true">
+                            
+                            <div class="doctor-info">
+                                <h3 class="doctor-name" data-bind="doctor.name">Dr. John Smith</h3>
+                                <p class="doctor-specialty" data-bind="doctor.specialty">Oncologist</p>
+                                <span class="availability-badge available" data-bind="doctor.status">Available Today</span>
+                            </div>
+                            
+                            <button class="view-profile-btn btn-available" onclick="showDoctorProfile('john-smith')" data-event="click:viewProfile">View Profile</button>
+                        </div>
+
+                        <div class="doctor-card" data-specialty="Dermatologist" data-name="Dr. Emily Chen">
+                            <!-- A professional headshot of a smiling Asian female dermatologist in white coat -->
+                            <img src="https://pixabay.com/get/gea5e297b9050c8c13496ec18c42f07c4db2c1ca457f44041fc4fd2fc000a03568c6ff453b0f398227546f8e6a034647c7b18d5e9e410e102ab2fb23a669193d4_1280.jpg" alt="Dr. Emily Chen" class="doctor-avatar" data-mock="true">
+                            
+                            <div class="doctor-info">
+                                <h3 class="doctor-name" data-bind="doctor.name">Dr. Emily Chen</h3>
+                                <p class="doctor-specialty" data-bind="doctor.specialty">Dermatologist</p>
+                                <span class="availability-badge available" data-bind="doctor.status">Available Today</span>
+                            </div>
+                            
+                            <button class="view-profile-btn btn-available" onclick="showDoctorProfile('emily-chen')" data-event="click:viewProfile">View Profile</button>
+                        </div>
+
+                        <div class="doctor-card" data-specialty="Neurologist" data-name="Dr. Michael Rodriguez">
+                            <!-- A professional headshot of a smiling Hispanic male neurologist in medical attire -->
+                            <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400" alt="Dr. Michael Rodriguez" class="doctor-avatar" data-mock="true">
+                            
+                            <div class="doctor-info">
+                                <h3 class="doctor-name" data-bind="doctor.name">Dr. Michael Rodriguez</h3>
+                                <p class="doctor-specialty" data-bind="doctor.specialty">Neurologist</p>
+                                <span class="availability-badge fully-booked" data-bind="doctor.status">Fully Booked</span>
+                            </div>
+                            
+                            <button class="view-profile-btn btn-booked" onclick="showDoctorProfile('michael-rodriguez')" data-event="click:viewProfile">View Profile</button>
+                        </div>
+                        <!-- @END_MAP )) -->
+                    </div>
+                </div>
+
+                <!-- Doctor Profile Page -->
+                <div id="doctorProfile" class="doctor-profile">
+                    <button class="back-btn" onclick="showLanding()">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Doctors
+                    </button>
+
+                    <div class="profile-header">
+                        <!-- A professional headshot of a smiling Caucasian male oncologist wearing glasses and medical coat -->
+                        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400" alt="Doctor Profile" class="profile-avatar" id="profileAvatar" data-mock="true">
+                        
+                        <div class="profile-details">
+                            <h2 id="profileName" data-bind="selectedDoctor.name">Dr. John Smith</h2>
+                            <p id="profileSpecialty" data-bind="selectedDoctor.specialty">Oncologist</p>
+                            <span class="availability-badge available" id="profileStatus" data-bind="selectedDoctor.status">Available Today</span>
+                        </div>
+                    </div>
+
+                    <div class="availability-section">
+                        <h3 class="availability-title">Available Time Slots</h3>
+                        
+                        <div class="time-slots">
+                            <div class="time-slot available">9:00 AM</div>
+                            <div class="time-slot available">10:30 AM</div>
+                            <div class="time-slot booked">12:00 PM</div>
+                            <div class="time-slot available">2:00 PM</div>
+                            <div class="time-slot available">3:30 PM</div>
+                            <div class="time-slot booked">5:00 PM</div>
+                        </div>
+
+                        <button class="book-appointment-btn" onclick="showBookingForm()" data-event="click:bookAppointment">
+                            Book Appointment
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Booking Form -->
+                <div id="bookingForm" class="booking-form">
+                    <button class="back-btn" onclick="showDoctorProfile()">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Profile
+                    </button>
+
+                    <h1 class="page-title">Book Appointment</h1>
+
+                    <form id="appointmentForm" onsubmit="submitBooking(event)" data-implementation="Should validate form before submission">
+                        <div class="form-group">
+                            <label class="form-label" for="patientName">Patient Name</label>
+                            <input type="text" id="patientName" class="form-input" required data-mock="true">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="patientEmail">Email Address</label>
+                            <input type="email" id="patientEmail" class="form-input" required data-mock="true">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="appointmentDate">Preferred Date</label>
+                            <input type="date" id="appointmentDate" class="form-input" required data-mock="true">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="appointmentTime">Preferred Time</label>
+                            <select id="appointmentTime" class="form-select" required data-mock="true">
+                                <option value="">Select a time</option>
+                                <option value="09:00">9:00 AM</option>
+                                <option value="10:30">10:30 AM</option>
+                                <option value="14:00">2:00 PM</option>
+                                <option value="15:30">3:30 PM</option>
+                            </select>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary" data-event="click:handleSubmit">Book Appointment</button>
+                            <button type="button" class="btn-secondary" onclick="showDoctorProfile()">Cancel</button>
+                        </div>
+                    </form>
+
+                    <div id="confirmationMessage" class="confirmation-message">
+                        <i class="fas fa-check-circle" style="font-size: 24px; margin-bottom: 12px;"></i>
+                        <h3>Appointment Booked Successfully!</h3>
+                        <p>We've sent a confirmation email to your address. The doctor will contact you shortly.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- @END_COMPONENT: ContentArea -->
+        </div>
+    </div>
+
+    <script>
+        // TODO: Implement business logic, API calls, or state management
+        
+        // Mock data for doctors
+        const doctorsData = {
+            'sarah-williams': {
+                name: 'Dr. Sarah Williams',
+                specialty: 'Cardiologist',
+                status: 'Fully Booked',
+                avatar: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400',
+                available: false
+            },
+            'john-smith': {
+                name: 'Dr. John Smith',
+                specialty: 'Oncologist',
+                status: 'Available Today',
+                avatar: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400',
+                available: true
+            },
+            'emily-chen': {
+                name: 'Dr. Emily Chen',
+                specialty: 'Dermatologist',
+                status: 'Available Today',
+                avatar: 'https://images.unsplash.com/photo-1594824336270-41dce1b71fb9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400',
+                available: true
+            },
+            'michael-rodriguez': {
+                name: 'Dr. Michael Rodriguez',
+                specialty: 'Neurologist',
+                status: 'Fully Booked',
+                avatar: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400',
+                available: false
+            }
+        };
+
+        let currentDoctor = null;
+
+        // Navigation functions
+        function showLanding() {
+            document.getElementById('landingPage').style.display = 'block';
+            document.getElementById('doctorProfile').classList.remove('active');
+            document.getElementById('bookingForm').classList.remove('active');
+            document.getElementById('confirmationMessage').classList.remove('active');
+        }
+
+        function showDoctorProfile(doctorId) {
+            currentDoctor = doctorId || currentDoctor;
+            if (currentDoctor && doctorsData[currentDoctor]) {
+                const doctor = doctorsData[currentDoctor];
+                
+                document.getElementById('profileName').textContent = doctor.name;
+                document.getElementById('profileSpecialty').textContent = doctor.specialty;
+                document.getElementById('profileStatus').textContent = doctor.status;
+                document.getElementById('profileStatus').className = `availability-badge ${doctor.available ? 'available' : 'fully-booked'}`;
+                document.getElementById('profileAvatar').src = doctor.avatar;
+                
+                document.getElementById('landingPage').style.display = 'none';
+                document.getElementById('doctorProfile').classList.add('active');
+                document.getElementById('bookingForm').classList.remove('active');
+            }
+        }
+
+        function showBookingForm() {
+            document.getElementById('doctorProfile').classList.remove('active');
+            document.getElementById('bookingForm').classList.add('active');
+        }
+
+        // Search functionality
+        function filterDoctors() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const doctorCards = document.querySelectorAll('.doctor-card');
+            
+            doctorCards.forEach(card => {
+                const name = card.getAttribute('data-name').toLowerCase();
+                const specialty = card.getAttribute('data-specialty').toLowerCase();
+                
+                if (name.includes(searchTerm) || specialty.includes(searchTerm)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Form submission
+        function submitBooking(event) {
+            event.preventDefault();
+            
+            // Basic form validation
+            const patientName = document.getElementById('patientName').value;
+            const patientEmail = document.getElementById('patientEmail').value;
+            const appointmentDate = document.getElementById('appointmentDate').value;
+            const appointmentTime = document.getElementById('appointmentTime').value;
+            
+            if (!patientName || !patientEmail || !appointmentDate || !appointmentTime) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            // Show confirmation
+            document.getElementById('confirmationMessage').classList.add('active');
+            
+            // Reset form
+            document.getElementById('appointmentForm').reset();
+            
+            // Hide form after 3 seconds and return to landing
+            setTimeout(() => {
+                showLanding();
+            }, 3000);
+        }
+
+        // Initialize the application
+        (function() {
+            // Set default minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('appointmentDate').setAttribute('min', today);
+            
+            // Show landing page by default
+            showLanding();
+        })();
+    </script>
+</body>
+</html>
